@@ -5,9 +5,10 @@ A Forge 1.8.9 Hypixel Mod to improve the /nick system for MVP++ players.
 This mod and its features are use at your own risk. It is to be used at the user's discretion with full knowledge that it may not be allowed.
 
 ## Features
-- Automatically reroll nicknames
+- Automatically reroll nicknames with advanced filtering
   - Rerolls your nickname until a certain phrase is met
-  - Let's you customize reroll interval
+  - Customizable reroll interval
+  - Multiple filtering options: text matching, exclusion, length limits, number/underscore control
   - Automatically claims the name once condition is met
 - Removes the need for the bulky written-book-based GUI system implemented by Hypixel
 - Let's you set a random nick rank `/betternick rank random`
@@ -20,6 +21,7 @@ This mod and its features are use at your own risk. It is to be used at the user
 - `/betternick help` - Shows help message with all available commands
 - `/betternick run` - Generates a random nickname (doesn't automatically claim it)
 - `/betternick claim` - Claims the generated username
+- `/betternick autoreroll` - Toggles auto-reroll to continuously generate nicknames until match found
 - `/betternick rank <rank|random>` - Sets your nick rank
   - Available ranks: `default`, `vip`, `vip+`, `mvp`, `mvp+`, `random`
 
@@ -31,20 +33,43 @@ Use `/betternickconfig` to configure the mod settings:
 - `/betternickconfig excludetext <text>` - Set text to exclude in nickname (for auto-reroll)
 - `/betternickconfig autoclaim <true/false>` - Toggle auto-claim when match is found
 - `/betternickconfig rerolldelay <1-10>` - Set delay between rerolls (in seconds)
+- `/betternickconfig maxlength <0-16>` - Set maximum length for generated names (0 = no limit)
+- `/betternickconfig allownumbers <true/false>` - Allow numbers in generated names
+- `/betternickconfig allowunderscores <true/false>` - Allow underscores in generated names
 - `/betternickconfig list` - Show all current settings
 - `/betternickconfig help` - Show configuration help
 
 ### Auto-Reroll Feature
 The auto-reroll feature will continuously generate new nicknames until one matches your criteria:
 
-1. Use `/betternickconfig matchtext <text>` to set what text should be in the nickname
-2. Optionally use `/betternickconfig excludetext <text>` to exclude certain characters
-3. Set `/betternickconfig autoclaim true` if you want it to automatically claim matching names
-4. Adjust `/betternickconfig rerolldelay <seconds>` to control how fast it rerolls
-5. Press Y (default keybind) to start/stop auto-reroll, or use `/betternick run` to manually reroll
+1. **Configure filtering criteria** (all optional):
+   - `/betternickconfig matchtext <text>` - Set text that must be in the nickname
+   - `/betternickconfig excludetext <text>` - Set characters to exclude from nickname
+   - `/betternickconfig maxlength <0-16>` - Set maximum length (0 = no limit)
+   - `/betternickconfig allownumbers <true/false>` - Control whether numbers are allowed
+   - `/betternickconfig allowunderscores <true/false>` - Control whether underscores are allowed
 
-### Keybinds
-- **Y** - Toggle auto-reroll on/off (can be changed in code if needed)
+2. **Configure behavior**:
+   - `/betternickconfig autoclaim <true/false>` - Auto-claim matching names or notify when found
+   - `/betternickconfig rerolldelay <1-10>` - Set delay between rerolls (in seconds)
+
+3. **Start auto-reroll**:
+   - `/betternick autoreroll` - Toggle auto-reroll on/off
+
+The system will continuously generate nicknames and check all your criteria. When a match is found, it will either automatically claim the name (if autoclaim is enabled) or notify you to manually claim it.
+
+### Example Usage
+```bash
+# Find a nickname containing "dragon", max 8 characters, no numbers or underscores
+/betternickconfig matchtext dragon
+/betternickconfig maxlength 8
+/betternickconfig allownumbers false
+/betternickconfig allowunderscores false
+/betternickconfig autoclaim true
+
+# Start the auto-reroll process
+/betternick autoreroll
+```
 
 ## Installation
 1. Make sure you have Minecraft Forge 1.8.9 installed
