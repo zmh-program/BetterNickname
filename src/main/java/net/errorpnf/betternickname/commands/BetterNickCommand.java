@@ -197,6 +197,8 @@ public class BetterNickCommand extends CommandBase {
         sendMessage("&b/betternick autoreroll &e- Toggles auto-reroll to continuously generate nicknames until match found.");
         sendMessage("&b/betternick rank &e- Sets your nick rank.");
         sendMessage("&b/betternick help &e- Displays this message.");
+        sendMessage("&b/betternickconfig ... &e- Set configuration.");
+        sendMessage("&b/betternickconfig help &e- Displays the configuration help message.");
         sendMessage("&e===================================================");
     }
     
