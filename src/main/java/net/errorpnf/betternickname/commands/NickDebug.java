@@ -49,7 +49,7 @@ public class NickDebug extends CommandBase {
                 // Create hover event
                 ChatComponentText hoverText = new ChatComponentText(
                         "§eTo claim a generated nickname, either run the\n"
-                                + "§ecommand §b/betternick claimname§e, or §bclick this message§e."
+                                + "§ecommand §b/betternick claim§e, or §bclick this message§e."
                                 + "\n\n§cWARNING:§7 When claiming a name, you are only able to claim"
                                 + "\n§7the most recently generated name. Once you have"
                                 + "\n§7rerolled your nickname, all previous names will be lost.");
@@ -60,8 +60,8 @@ public class NickDebug extends CommandBase {
 
                 Minecraft.getMinecraft().thePlayer.addChatMessage(message);
             } else if (args[0].equals("sendcommand")) {
-                //ClientCommandHandler.instance.executeCommand(commandSender, "/betternick" + "randomname");
-                Minecraft.getMinecraft().thePlayer.sendChatMessage("/betternick randomname");
+                //ClientCommandHandler.instance.executeCommand(commandSender, "/betternick" + "run");
+                Minecraft.getMinecraft().thePlayer.sendChatMessage("/betternick run");
             }
         } else {
             sendMessage(getCommandUsage(sender));

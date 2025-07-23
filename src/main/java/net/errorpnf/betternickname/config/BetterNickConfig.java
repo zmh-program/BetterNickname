@@ -17,13 +17,13 @@ public class BetterNickConfig {
     // Auto-Reroll Settings
     public static String matchText = "";
     public static String excludeText = "";
-    public static boolean autoClaimName = true;
+    public static boolean autoclaim = true;
     public static int rerollDelay = 3;
     
     // Keybinds (using LWJGL Keyboard constants)
     public static int autoRerollKeybind = Keyboard.KEY_Y;
     public static int rerollNickKeybind = Keyboard.KEY_NONE;
-    public static int claimNameKeybind = Keyboard.KEY_NONE;
+    public static int claimKeybind = Keyboard.KEY_NONE;
     
     // Auto-reroll state
     public static boolean autoRerollEnabled = false;

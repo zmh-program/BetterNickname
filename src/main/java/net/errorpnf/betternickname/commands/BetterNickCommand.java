@@ -39,7 +39,7 @@ public class BetterNickCommand extends CommandBase {
             return;
         }
 
-        if (!args[0].equals("help") && !args[0].equals("randomname") && !args[0].equals("claimname") && !args[0].equals("rank")) {
+        if (!args[0].equals("help") && !args[0].equals("run") && !args[0].equals("claim") && !args[0].equals("rank")) {
             helpCommand();
             return;
         }
@@ -49,10 +49,10 @@ public class BetterNickCommand extends CommandBase {
             return;
         }
 
-        if (args[0].equals("randomname")) {
+        if (args[0].equals("run")) {
             rerollNick();
             return;
-        } else if (args[0].equals("claimname")) {
+        } else if (args[0].equals("claim")) {
             claimNick();
             return;
         }
@@ -118,8 +118,8 @@ public class BetterNickCommand extends CommandBase {
             String input = args[0].toLowerCase(); // Convert input to lowercase for case-insensitive matching
 
             // Add your top-level subcommands to the tab completion list
-            completions.add("randomname");
-            completions.add("claimname");
+            completions.add("run");
+            completions.add("claim");
             completions.add("rank");
 
             // Optionally, add more top-level subcommands here
@@ -162,7 +162,7 @@ public class BetterNickCommand extends CommandBase {
                     AutoReroll.claimedName = BookParser.getGeneratedNickname();
                     AutoReroll.hasClaimedName = true;
                 } else {
-                    sendMessage("&cGenerated nickname is null. Please try generating a nickname with &e/betternick randomname&c before attempting to claim a username.");
+                    sendMessage("&cGenerated nickname is null. Please try generating a nickname with &e/betternick run&c before attempting to claim a username.");
                 }
             } else {
                 sendMessage("&cYou must be in the lobby to do this!");
@@ -188,8 +188,8 @@ public class BetterNickCommand extends CommandBase {
     public static void helpCommand() {
         // displays help
         sendMessage("&e===================================================");
-        sendMessage("&b/betternick randomname &e- Generates a random nickname for you (but doesn't automatically claim it).");
-        sendMessage("&b/betternick claimname &e- Claims the username you generated.");
+        sendMessage("&b/betternick run &e- Generates a random nickname for you (but doesn't automatically claim it).");
+        sendMessage("&b/betternick claim &e- Claims the username you generated.");
         sendMessage("&b/betternick rank &e- Sets your nick rank.");
         sendMessage("&b/betternick help &e- Displays this message.");
         sendMessage("&e===================================================");

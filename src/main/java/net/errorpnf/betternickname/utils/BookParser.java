@@ -113,7 +113,7 @@ public class BookParser {
 
                             ChatComponentText hoverText = new ChatComponentText(
                                     "§eTo claim a generated nickname, either run the\n"
-                                            + "§ecommand §b/betternick claimname§e, or §bclick this message§e."
+                                            + "§ecommand §b/betternick claim§e, or §bclick this message§e."
                                             + "\n\n§cWARNING: When claiming a name, you are only able to claim"
                                             + "\n§cthe most recently generated name. Once you have"
                                             + "\n§crerolled your nickname, all previous names will be lost.");

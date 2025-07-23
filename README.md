@@ -18,8 +18,8 @@ This mod and its features are use at your own risk. It is to be used at the user
 
 ### Main Commands
 - `/betternick help` - Shows help message with all available commands
-- `/betternick randomname` - Generates a random nickname (doesn't automatically claim it)
-- `/betternick claimname` - Claims the generated username
+- `/betternick run` - Generates a random nickname (doesn't automatically claim it)
+- `/betternick claim` - Claims the generated username
 - `/betternick rank <rank|random>` - Sets your nick rank
   - Available ranks: `default`, `vip`, `vip+`, `mvp`, `mvp+`, `random`
 
@@ -41,7 +41,7 @@ The auto-reroll feature will continuously generate new nicknames until one match
 2. Optionally use `/betternickconfig excludetext <text>` to exclude certain characters
 3. Set `/betternickconfig autoclaim true` if you want it to automatically claim matching names
 4. Adjust `/betternickconfig rerolldelay <seconds>` to control how fast it rerolls
-5. Press Y (default keybind) to start/stop auto-reroll, or use `/betternick randomname` to manually reroll
+5. Press Y (default keybind) to start/stop auto-reroll, or use `/betternick run` to manually reroll
 
 ### Keybinds
 - **Y** - Toggle auto-reroll on/off (can be changed in code if needed)

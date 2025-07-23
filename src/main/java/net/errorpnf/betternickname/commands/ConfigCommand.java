@@ -66,10 +66,10 @@ public class ConfigCommand extends CommandBase {
             case "autoclaim":
                 if (args.length > 1) {
                     boolean value = Boolean.parseBoolean(args[1]);
-                    BetterNickConfig.autoClaimName = value;
+                    BetterNickConfig.autoclaim = value;
                     sendMessage("Auto Claim Name set to: " + value);
                 } else {
-                    sendMessage("Auto Claim Name: " + BetterNickConfig.autoClaimName);
+                    sendMessage("Auto Claim Name: " + BetterNickConfig.autoclaim);
                 }
                 break;
             case "rerolldelay":
@@ -123,7 +123,7 @@ public class ConfigCommand extends CommandBase {
         sendMessage("Show Rank: " + BetterNickConfig.showRank);
         sendMessage("Match Text: '" + BetterNickConfig.matchText + "'");
         sendMessage("Exclude Text: '" + BetterNickConfig.excludeText + "'");
-        sendMessage("Auto Claim Name: " + BetterNickConfig.autoClaimName);
+        sendMessage("Auto Claim Name: " + BetterNickConfig.autoclaim);
         sendMessage("Reroll Delay: " + BetterNickConfig.rerollDelay + " seconds");
     }
 
