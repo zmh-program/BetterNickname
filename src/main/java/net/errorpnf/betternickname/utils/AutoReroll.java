@@ -29,7 +29,8 @@ public class AutoReroll {
             if (isAutoRerollEnabled()) {
                 if (true) {
                     if (!hasClaimedName && BookParser.getGeneratedNickname() != null && !BookParser.getGeneratedNickname().equals(claimedName)) {
-                        if (!BetterNickConfig.matchText.isEmpty() && BookParser.getGeneratedNickname().contains(BetterNickConfig.matchText)) {
+                        boolean matchesText = BetterNickConfig.matchText.isEmpty() || BookParser.getGeneratedNickname().contains(BetterNickConfig.matchText);
+                        if (matchesText) {
                             if (BetterNickConfig.excludeText.isEmpty() || !BookParser.getGeneratedNickname().matches(String.format(".*[%s].*", BetterNickConfig.excludeText))) { // Checks if any chars in nick
                                 if (BetterNickConfig.autoclaim) {
                                     Minecraft.getMinecraft().thePlayer.sendChatMessage("/nick actuallyset " + BookParser.getGeneratedNickname());
