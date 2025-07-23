@@ -89,6 +89,49 @@ public class ConfigCommand extends CommandBase {
                     sendMessage("Reroll Delay: " + BetterNickConfig.rerollDelay + " seconds");
                 }
                 break;
+            case "maxlength":
+                if (args.length > 1) {
+                    try {
+                        int value = Integer.parseInt(args[1]);
+                        if (value >= 0 && value <= 16) {
+                            BetterNickConfig.maxLength = value;
+                            if (value == 0) {
+                                sendMessage("Max Length set to: No limit");
+                            } else {
+                                sendMessage("Max Length set to: " + value + " characters");
+                            }
+                        } else {
+                            sendMessage(EnumChatFormatting.RED + "Max Length must be between 0 (no limit) and 16 characters");
+                        }
+                    } catch (NumberFormatException e) {
+                        sendMessage(EnumChatFormatting.RED + "Invalid number format");
+                    }
+                } else {
+                    if (BetterNickConfig.maxLength == 0) {
+                        sendMessage("Max Length: No limit");
+                    } else {
+                        sendMessage("Max Length: " + BetterNickConfig.maxLength + " characters");
+                    }
+                }
+                break;
+            case "allownumbers":
+                if (args.length > 1) {
+                    boolean value = Boolean.parseBoolean(args[1]);
+                    BetterNickConfig.allowNumbers = value;
+                    sendMessage("Allow Numbers set to: " + value);
+                } else {
+                    sendMessage("Allow Numbers: " + BetterNickConfig.allowNumbers);
+                }
+                break;
+            case "allowunderscores":
+                if (args.length > 1) {
+                    boolean value = Boolean.parseBoolean(args[1]);
+                    BetterNickConfig.allowUnderscores = value;
+                    sendMessage("Allow Underscores set to: " + value);
+                } else {
+                    sendMessage("Allow Underscores: " + BetterNickConfig.allowUnderscores);
+                }
+                break;
             case "list":
                 listAllSettings();
                 break;
@@ -114,6 +157,9 @@ public class ConfigCommand extends CommandBase {
         sendMessage(EnumChatFormatting.AQUA + "/betternickconfig excludetext <text>" + EnumChatFormatting.GRAY + " - Text to exclude in nickname");
         sendMessage(EnumChatFormatting.AQUA + "/betternickconfig autoclaim <true/false>" + EnumChatFormatting.GRAY + " - Auto claim matching names");
         sendMessage(EnumChatFormatting.AQUA + "/betternickconfig rerolldelay <1-10>" + EnumChatFormatting.GRAY + " - Delay between rerolls (seconds)");
+        sendMessage(EnumChatFormatting.AQUA + "/betternickconfig maxlength <0-16>" + EnumChatFormatting.GRAY + " - Max length for generated names");
+        sendMessage(EnumChatFormatting.AQUA + "/betternickconfig allownumbers <true/false>" + EnumChatFormatting.GRAY + " - Allow numbers in generated names");
+        sendMessage(EnumChatFormatting.AQUA + "/betternickconfig allowunderscores <true/false>" + EnumChatFormatting.GRAY + " - Allow underscores in generated names");
         sendMessage(EnumChatFormatting.AQUA + "/betternickconfig list" + EnumChatFormatting.GRAY + " - List all current settings");
         sendMessage(EnumChatFormatting.AQUA + "/betternickconfig help" + EnumChatFormatting.GRAY + " - Show this help message");
     }
@@ -125,6 +171,13 @@ public class ConfigCommand extends CommandBase {
         sendMessage("Exclude Text: '" + BetterNickConfig.excludeText + "'");
         sendMessage("Auto Claim Name: " + BetterNickConfig.autoclaim);
         sendMessage("Reroll Delay: " + BetterNickConfig.rerollDelay + " seconds");
+        if (BetterNickConfig.maxLength == 0) {
+            sendMessage("Max Length: No limit");
+        } else {
+            sendMessage("Max Length: " + BetterNickConfig.maxLength + " characters");
+        }
+        sendMessage("Allow Numbers: " + BetterNickConfig.allowNumbers);
+        sendMessage("Allow Underscores: " + BetterNickConfig.allowUnderscores);
     }
 
     @Override
@@ -138,13 +191,19 @@ public class ConfigCommand extends CommandBase {
 
         if (args.length == 1) {
             String input = args[0].toLowerCase();
-            completions.addAll(Arrays.asList("help", "showrank", "matchtext", "excludetext", "autoclaim", "rerolldelay", "list"));
+            completions.addAll(Arrays.asList("help", "showrank", "matchtext", "excludetext", "autoclaim", "rerolldelay", "maxlength", "allownumbers", "allowunderscores", "list"));
             completions.removeIf(s -> !s.startsWith(input));
         } else if (args.length == 2) {
             String setting = args[0].toLowerCase();
             String input = args[1].toLowerCase();
             
             if (setting.equals("showrank") || setting.equals("autoclaim")) {
+                completions.addAll(Arrays.asList("true", "false"));
+                completions.removeIf(s -> !s.startsWith(input));
+            } else if (setting.equals("rerolldelay") || setting.equals("maxlength")) {
+                completions.addAll(Arrays.asList("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "0"));
+                completions.removeIf(s -> !s.startsWith(input));
+            } else if (setting.equals("allownumbers") || setting.equals("allowunderscores")) {
                 completions.addAll(Arrays.asList("true", "false"));
                 completions.removeIf(s -> !s.startsWith(input));
             }
