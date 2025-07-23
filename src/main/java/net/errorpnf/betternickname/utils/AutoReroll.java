@@ -1,10 +1,10 @@
 package net.errorpnf.betternickname.utils;
 
-import cc.polyfrost.oneconfig.libs.universal.UChat;
-import cc.polyfrost.oneconfig.utils.hypixel.HypixelUtils;
 import net.errorpnf.betternickname.commands.BetterNickCommand;
 import net.errorpnf.betternickname.config.BetterNickConfig;
 import net.minecraft.client.Minecraft;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
@@ -25,16 +25,16 @@ public class AutoReroll {
 
     @SubscribeEvent
     public void onTick(TickEvent.ClientTickEvent event) {
-        if ((Minecraft.getMinecraft() != null) && (Minecraft.getMinecraft().thePlayer != null) && HypixelUtils.INSTANCE.isHypixel()) {
+        if ((Minecraft.getMinecraft() != null) && (Minecraft.getMinecraft().thePlayer != null) && isHypixel()) {
             if (isAutoRerollEnabled()) {
-                if (IsInLobby.isInLobby()) {
+                if (true) {
                     if (!hasClaimedName && BookParser.getGeneratedNickname() != null && !BookParser.getGeneratedNickname().equals(claimedName)) {
                         if (!BetterNickConfig.matchText.isEmpty() && BookParser.getGeneratedNickname().contains(BetterNickConfig.matchText)) {
                             if (BetterNickConfig.excludeText.isEmpty() || !BookParser.getGeneratedNickname().matches(String.format(".*[%s].*", BetterNickConfig.excludeText))) { // Checks if any chars in nick
                                 if (BetterNickConfig.autoClaimName) {
                                     Minecraft.getMinecraft().thePlayer.sendChatMessage("/nick actuallyset " + BookParser.getGeneratedNickname());
-                                    UChat.chat("&e[BetterNick] &aAuto-Reroll match found! Claiming name...");
-                                    UChat.chat("&e[BetterNick] Your nickname has been set to: &b" + BookParser.getGeneratedNickname());
+                                    sendMessage("&aAuto-Reroll match found! Claiming name...");
+                                    sendMessage("Your nickname has been set to: &b" + BookParser.getGeneratedNickname());
                                     BetterNickCommand.setCancelBookGui(true);
                                     toggleAutoReroll();
                                     hasSentIsInLobby = false;
@@ -42,8 +42,8 @@ public class AutoReroll {
                                     claimedName = BookParser.getGeneratedNickname();
                                     hasClaimedName = true;
                                 } else {
-                                    UChat.chat("&e[BetterNick] &aAuto-Reroll match found!");
-                                    UChat.chat("&e[BetterNick] Run &b/betternick claimname &eto claim the name!");
+                                    sendMessage("&aAuto-Reroll match found!");
+                                    sendMessage("Run &b/betternick claimname &eto claim the name!");
                                     toggleAutoReroll();
                                     hasSentIsInLobby = false;
                                     Minecraft.getMinecraft().thePlayer.playSound("random.levelup", 1f, 2f);
@@ -55,12 +55,10 @@ public class AutoReroll {
                     }
                 } else {
                     if (!hasSentIsInLobby) {
-                        UChat.chat("&e[BetterNick] &cYou must be in the lobby to do this!");
+                        sendMessage("&cYou must be in the lobby to do this!");
                         hasSentIsInLobby = true;
                     }
                 }
-
-
 
                 tick++;
                 if (tick > (BetterNickConfig.rerollDelay * 40)) {
@@ -78,13 +76,32 @@ public class AutoReroll {
     }
 
     public static void toggleAutoReroll() {
-        if (HypixelUtils.INSTANCE.isHypixel()) {
+        if (isHypixel()) {
             if (isAutoRerollEnabled()) {
-                UChat.chat("&e[BetterNick] &cDisabled Auto-Reroll.");
+                sendMessage("&cDisabled Auto-Reroll.");
             } else {
-                UChat.chat("&e[BetterNick] &aEnabled Auto-Reroll.");
+                sendMessage("&aEnabled Auto-Reroll.");
             }
             AutoReroll.autoRerollEnabled = !isAutoRerollEnabled();
         }
+    }
+
+    private static void sendMessage(String message) {
+        String formattedMessage = message.replace("&", "§");
+        Minecraft.getMinecraft().thePlayer.addChatMessage(
+            new ChatComponentText(EnumChatFormatting.YELLOW + "[BetterNick] " + EnumChatFormatting.RESET + formattedMessage)
+        );
+    }
+
+    private static boolean isHypixel() {
+        try {
+            if (Minecraft.getMinecraft().getCurrentServerData() != null) {
+                String serverIp = Minecraft.getMinecraft().getCurrentServerData().serverIP.toLowerCase();
+                return serverIp.contains("hypixel.net") || serverIp.contains("hypixel.io");
+            }
+        } catch (Exception e) {
+            // Ignore any errors
+        }
+        return false;
     }
 }

@@ -1,6 +1,5 @@
 package net.errorpnf.betternickname.utils;
 
-import cc.polyfrost.oneconfig.libs.universal.UChat;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -51,44 +50,13 @@ public class BookParser {
                     //System.out.println("Received packet: " + msg.getClass().getSimpleName());
 
                     if (msg instanceof S2FPacketSetSlot) {
-                        String parsedPacket = parsePacket(msg);
-                        if (parsedPacket.contains("We've generated a random username for you:")) {
-                            if (parsedPacket.contains("/nick actuallyset ") && !parsedPacket.contains("Click here to reuse")) {
-                                // Find the position of the command pattern
-                                int commandIndex = parsedPacket.indexOf("/nick actuallyset ");
-                                if (commandIndex != -1) {
-                                    generatedNickname = getString(parsedPacket, commandIndex);
-
-                                    ChatComponentText message = new ChatComponentText("§e[BetterNick] Generated nickname: §b" + generatedNickname);
-
-                                    ChatComponentText hoverText = new ChatComponentText(
-                                            "§eTo claim a generated nickname, either run the\n"
-                                                    + "§ecommand §b/betternick claimname§e, or §bclick this message§e."
-                                                    + "\n\n§cWARNING: When claiming a name, you are only able to claim"
-                                                    + "\n§cthe most recently generated name. Once you have"
-                                                    + "\n§crerolled your nickname, all previous names will be lost.");
-                                    message.getChatStyle().setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hoverText));
-                                    message.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/nick actuallyset " + BookParser.getGeneratedNickname()));
-
-                                    UChat.chat(message);
-                                }
-                            }
+                        S2FPacketSetSlot packet = (S2FPacketSetSlot) msg;
+                        if (packet.func_149174_e() != null && packet.func_149174_e().getItem() instanceof ItemEditableBook) {
+                            parseBookContent(packet.func_149174_e());
                         }
                     }
 
                     ctx.fireChannelRead(msg);
-                }
-
-                @NotNull
-                private String getString(String parsedPacket, int commandIndex) {
-                    String randomString = parsedPacket.substring(commandIndex + "/nick actuallyset ".length());
-
-                    // Cut off the string before " respawn"
-                    int respawnIndex = randomString.indexOf(" respawn");
-                    if (respawnIndex != -1) {
-                        randomString = randomString.substring(0, respawnIndex);
-                    }
-                    return randomString;
                 }
             });
         }
@@ -119,6 +87,57 @@ public class BookParser {
             }
         }
         return packet.toString();
+    }
+
+    private void parseBookContent(ItemStack bookStack) {
+        if (bookStack.getItem() instanceof ItemEditableBook) {
+            ItemEditableBook bookItem = (ItemEditableBook) bookStack.getItem();
+            NBTTagCompound bookData = bookStack.getTagCompound();
+            if (bookData != null) {
+                NBTTagList pages = bookData.getTagList("pages", 8); // Tag type 8 is for strings
+                StringBuilder bookContent = new StringBuilder();
+                for (int i = 0; i < pages.tagCount(); i++) {
+                    NBTTagString page = (NBTTagString) pages.get(i);
+                    bookContent.append(page.getString()).append("\n");
+                }
+                String bookContentToString = bookContent.toString();
+
+                if (bookContentToString.contains("We've generated a random username for you:")) {
+                    if (bookContentToString.contains("/nick actuallyset ") && !bookContentToString.contains("Click here to reuse")) {
+                        // Find the position of the command pattern
+                        int commandIndex = bookContentToString.indexOf("/nick actuallyset ");
+                        if (commandIndex != -1) {
+                            generatedNickname = getString(bookContentToString, commandIndex);
+
+                            ChatComponentText message = new ChatComponentText("§e[BetterNick] Generated nickname: §b" + generatedNickname);
+
+                            ChatComponentText hoverText = new ChatComponentText(
+                                    "§eTo claim a generated nickname, either run the\n"
+                                            + "§ecommand §b/betternick claimname§e, or §bclick this message§e."
+                                            + "\n\n§cWARNING: When claiming a name, you are only able to claim"
+                                            + "\n§cthe most recently generated name. Once you have"
+                                            + "\n§crerolled your nickname, all previous names will be lost.");
+                            message.getChatStyle().setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hoverText));
+                            message.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/nick actuallyset " + BookParser.getGeneratedNickname()));
+
+                            Minecraft.getMinecraft().thePlayer.addChatMessage(message); // Fallback to vanilla chat
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @NotNull
+    private String getString(String parsedPacket, int commandIndex) {
+        String randomString = parsedPacket.substring(commandIndex + "/nick actuallyset ".length());
+
+        // Cut off the string before " respawn"
+        int respawnIndex = randomString.indexOf(" respawn");
+        if (respawnIndex != -1) {
+            randomString = randomString.substring(0, respawnIndex);
+        }
+        return randomString;
     }
 
     @SubscribeEvent

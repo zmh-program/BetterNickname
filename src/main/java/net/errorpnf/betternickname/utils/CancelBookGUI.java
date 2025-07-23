@@ -1,6 +1,5 @@
 package net.errorpnf.betternickname.utils;
 
-import cc.polyfrost.oneconfig.libs.universal.UChat;
 import net.errorpnf.betternickname.commands.BetterNickCommand;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreenBook;
@@ -23,7 +22,7 @@ public class CancelBookGUI {
             if (BetterNickCommand.shouldCancelBookGui()) {
                 // Close the GUI screen
                 Minecraft.getMinecraft().displayGuiScreen(null);
-                //UChat.chat("Condition met, closing the book GUI.");
+                //System.out.println("Condition met, closing the book GUI.");
                 BetterNickCommand.setCancelBookGui(false);
             }
         }

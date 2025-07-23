@@ -3,8 +3,7 @@
 import org.polyfrost.gradle.util.noServerRunConfigs
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
-// Adds support for kotlin, and adds the Polyfrost Gradle Toolkit
-// which we use to prepare the environment.
+// Adds support for kotlin and other required plugins
 plugins {
     kotlin("jvm")
     id("org.polyfrost.multi-version")
@@ -53,11 +52,10 @@ loom {
     // If you're developing a server-side mod, you can remove this line.
     noServerRunConfigs()
 
-    // Adds the tweak class if we are building legacy version of forge as per the documentation (https://docs.polyfrost.org)
+    // Adds the tweak class if we are building legacy version of forge
     if (project.platform.isLegacyForge) {
         runConfigs {
             "client" {
-                programArgs("--tweakClass", "cc.polyfrost.oneconfig.loader.stage0.LaunchWrapperTweaker")
                 property("mixin.debug.export", "true")
             }
         }
@@ -87,25 +85,20 @@ sourceSets {
     }
 }
 
-// Adds the Polyfrost maven repository so that we can get the libraries necessary to develop the mod.
+// Adds maven repositories for dependencies
 repositories {
-    maven("https://repo.polyfrost.org/releases")
     maven("https://repo.hypixel.net/repository/Hypixel/")
 }
 
 // Configures the libraries/dependencies for your mod.
 dependencies {
     shade("net.hypixel:mod-api:0.4.0")
-    // Adds the OneConfig library, so we can develop with it.
-
-    modCompileOnly("cc.polyfrost:oneconfig-$platform:0.2.2-alpha+")
 
     modRuntimeOnly("me.djtheredstoner:DevAuth-${if (platform.isFabric) "fabric" else if (platform.isLegacyForge) "forge-legacy" else "forge-latest"}:1.2.0")
 
-    // If we are building for legacy forge, includes the launch wrapper with `shade` as we configured earlier.
+    // If we are building for legacy forge, includes mixin support
     if (platform.isLegacyForge) {
         compileOnly("org.spongepowered:mixin:0.7.11-SNAPSHOT")
-        shade("cc.polyfrost:oneconfig-wrapper-launchwrapper:1.0.0-beta+")
     }
 }
 
@@ -188,9 +181,7 @@ tasks {
             manifest.attributes += mapOf(
                 "ModSide" to "CLIENT", // We aren't developing a server-side mod, so this is fine.
                 "ForceLoadAsMod" to true, // We want to load this jar as a mod, so we force Forge to do so.
-                "TweakOrder" to "0", // Makes sure that the OneConfig launch wrapper is loaded as soon as possible.
-                "MixinConfigs" to "mixins.${mod_id}.json", // We want to use our mixin configuration, so we specify it here.
-                "TweakClass" to "cc.polyfrost.oneconfig.loader.stage0.LaunchWrapperTweaker" // Loads the OneConfig launch wrapper.
+                "MixinConfigs" to "mixins.${mod_id}.json" // We want to use our mixin configuration, so we specify it here.
             )
         }
         dependsOn(shadowJar)

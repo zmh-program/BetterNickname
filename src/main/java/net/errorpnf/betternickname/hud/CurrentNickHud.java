@@ -1,22 +1,39 @@
 package net.errorpnf.betternickname.hud;
 
-import cc.polyfrost.oneconfig.hud.SingleTextHud;
 import net.errorpnf.betternickname.config.BetterNickConfig;
 import net.errorpnf.betternickname.utils.BookParser;
 import net.errorpnf.betternickname.utils.IsInLobby;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 /**
- * An example OneConfig HUD that is started in the config and displays text.
- *
- * @see BetterNickConfig#hud
+ * Simple HUD to display current nickname information
+ * Renders in the top-left corner of the screen
  */
-public class CurrentNickHud extends SingleTextHud {
+public class CurrentNickHud {
+    
     public CurrentNickHud() {
-        super("§eGenerated Nickname", true);
+        // Simple initialization
     }
 
-    @Override
+    @SubscribeEvent
+    public void onRenderOverlay(RenderGameOverlayEvent.Text event) {
+        if (shouldShow()) {
+            String text = getText(false);
+            FontRenderer fontRenderer = Minecraft.getMinecraft().fontRendererObj;
+            
+            // Render the text in the top-left corner with some padding
+            fontRenderer.drawStringWithShadow(text, 10, 10, 0xFFFFFF);
+        }
+    }
+
     public String getText(boolean example) {
+        if (example) {
+            return "§eGenerated Nickname";
+        }
+        
         if (BetterNickConfig.showRank) {
             if (BookParser.getCurrentRank() == null) {
                 if (BookParser.getGeneratedNickname() != null) {
@@ -37,12 +54,15 @@ public class CurrentNickHud extends SingleTextHud {
         }
     }
 
-    @Override
     public boolean shouldShow() {
-        if (IsInLobby.isInLobby()) {
-            return super.shouldShow() && IsInLobby.isInLobby();
+        if (Minecraft.getMinecraft().thePlayer == null) {
+            return false;
+        }
+        
+        if (true) {
+            return true;
         } else {
-            return super.shouldShow() && IsInLobby.isInLobby();
+            return true;
         }
     }
 }

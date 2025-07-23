@@ -1,9 +1,11 @@
 package net.errorpnf.betternickname.utils;
 
-import cc.polyfrost.oneconfig.libs.universal.UChat;
+import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
 
 public class BoolCommand extends CommandBase {
 
@@ -24,17 +26,23 @@ public class BoolCommand extends CommandBase {
 
     @Override
     public String getCommandUsage(ICommandSender sender) {
-        return "shit do";
+        return "/bool";
     }
 
     @Override
     public void processCommand(ICommandSender sender, String[] args) throws CommandException {
         shouldEnable = !shouldEnable;
-        UChat.chat("bool is now" + shouldEnable);
+        sendMessage("bool is now " + shouldEnable);
     }
 
     @Override
     public int getRequiredPermissionLevel() {
         return 0;
+    }
+    
+    private void sendMessage(String message) {
+        Minecraft.getMinecraft().thePlayer.addChatMessage(
+            new ChatComponentText(EnumChatFormatting.YELLOW + "[BetterNick] " + EnumChatFormatting.RESET + message)
+        );
     }
 }

@@ -1,6 +1,5 @@
 package net.errorpnf.betternickname.commands;
 
-import cc.polyfrost.oneconfig.libs.universal.UChat;
 import net.errorpnf.betternickname.utils.BookParser;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
@@ -10,7 +9,6 @@ import net.minecraft.event.ClickEvent;
 import net.minecraft.event.HoverEvent;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraftforge.client.ClientCommandHandler;
 
 public class NickDebug extends CommandBase {
     @Override
@@ -20,30 +18,30 @@ public class NickDebug extends CommandBase {
 
     @Override
     public String getCommandUsage(ICommandSender sender) {
-        return "/betternick";
+        return "/nickdebug <command> [args]";
     }
 
     @Override
     public void processCommand(ICommandSender sender, String[] args) throws CommandException {
         if (args.length > 1) {
             if (args[0].equals("getnick")) {
-                UChat.chat("&aCurrent Nick:&f " + BookParser.getGeneratedNickname());
+                sendMessage("&aCurrent Nick:&f " + BookParser.getGeneratedNickname());
             } else if (args[0].equals("setnick")) {
                 if (args[1] != null) {
                     BookParser.setGeneratedNickname(args[1]);
-                    UChat.chat("&aSuccessfully changed the debug nickname to:&f " + BookParser.getGeneratedNickname());
+                    sendMessage("&aSuccessfully changed the debug nickname to:&f " + BookParser.getGeneratedNickname());
                 } else {
-                    UChat.chat("&cPlease provided a name to set the debug nick to.");
+                    sendMessage("&cPlease provided a name to set the debug nick to.");
                 }
 
             } else if (args[0].equals("getrank")) {
-                UChat.chat("&aCurrent Rank:&f " + BookParser.getCurrentRank());
+                sendMessage("&aCurrent Rank:&f " + BookParser.getCurrentRank());
             } else if (args[0].equals("setrank")) {
                 if (args[1] != null) {
                     BookParser.setCurrentRank(args[1]);
-                    UChat.chat("&aSuccessfully changed the debug rank to:&f " + BookParser.getCurrentRank());
+                    sendMessage("&aSuccessfully changed the debug rank to:&f " + BookParser.getCurrentRank());
                 } else {
-                    UChat.chat("&cPlease provided a rank to set the debug rank to.");
+                    sendMessage("&cPlease provided a rank to set the debug rank to.");
                 }
             } else if (args[0].equals("printchat")) {
                 ChatComponentText message = new ChatComponentText("§e[BetterNick] Generated nickname: §b" + BookParser.getGeneratedNickname());
@@ -60,20 +58,25 @@ public class NickDebug extends CommandBase {
                 // Create click event to run a command
                 message.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/nick actuallyset " + BookParser.getGeneratedNickname()));
 
-                UChat.chat(message);
+                Minecraft.getMinecraft().thePlayer.addChatMessage(message);
             } else if (args[0].equals("sendcommand")) {
-                ICommandSender commandSender = Minecraft.getMinecraft().thePlayer;
-
                 //ClientCommandHandler.instance.executeCommand(commandSender, "/betternick" + "randomname");
                 Minecraft.getMinecraft().thePlayer.sendChatMessage("/betternick randomname");
             }
         } else {
-            UChat.chat(getCommandUsage(sender));
+            sendMessage(getCommandUsage(sender));
         }
     }
 
     @Override
     public int getRequiredPermissionLevel() {
         return 0;
+    }
+    
+    private void sendMessage(String message) {
+        String formattedMessage = message.replace("&", "§");
+        Minecraft.getMinecraft().thePlayer.addChatMessage(
+            new ChatComponentText(EnumChatFormatting.YELLOW + "[BetterNick] " + EnumChatFormatting.RESET + formattedMessage)
+        );
     }
 }
