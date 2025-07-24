@@ -10,6 +10,7 @@ This mod and its features are use at your own risk. It is to be used at the user
   - Customizable reroll interval
   - Multiple filtering options: text matching, exclusion, length limits, number/underscore control
   - Automatically claims the name once condition is met
+- Auto-jump feature to stay active (jumps every 30-90 seconds randomly)
 - Removes the need for the bulky written-book-based GUI system implemented by Hypixel
 - Let's you set a random nick rank `/betternick rank random`
 - Contains a HUD showing the current nick rank and name 
@@ -24,6 +25,7 @@ This mod and its features are use at your own risk. It is to be used at the user
 - `/betternick autoreroll` - Toggles auto-reroll to continuously generate nicknames until match found
 - `/betternick rank <rank|random>` - Sets your nick rank
   - Available ranks: `default`, `vip`, `vip+`, `mvp`, `mvp+`, `random`
+- `/autojump` - Toggles auto-jump (jumps every 30-90 seconds randomly)
 
 ### Configuration Commands
 Use `/betternickconfig` to configure the mod settings:
@@ -58,6 +60,14 @@ The auto-reroll feature will continuously generate new nicknames until one match
 
 The system will continuously generate nicknames and check all your criteria. When a match is found, it will either automatically claim the name (if autoclaim is enabled) or notify you to manually claim it.
 
+### Auto-Jump Feature
+The auto-jump feature helps you stay active while waiting for nickname generation:
+
+- Use `/autojump` to toggle auto-jump on/off
+- When enabled, your character will jump automatically every 30-90 seconds (random interval)
+- Only jumps when you're on the ground
+- Useful for staying active while using auto-reroll
+
 ### Example Usage
 ```bash
 # Find a nickname containing "dragon", max 8 characters, no numbers or underscores
@@ -69,6 +79,9 @@ The system will continuously generate nicknames and check all your criteria. Whe
 
 # Start the auto-reroll process
 /betternick autoreroll
+
+# Optional: Enable auto-jump to stay active
+/autojump
 ```
 
 ## Installation

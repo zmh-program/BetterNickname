@@ -1,5 +1,6 @@
 package net.errorpnf.betternickname;
 
+import net.errorpnf.betternickname.commands.AutoJumpCommand;
 import net.errorpnf.betternickname.commands.BetterNickCommand;
 import net.errorpnf.betternickname.commands.ConfigCommand;
 import net.errorpnf.betternickname.commands.NickDebug;
@@ -52,9 +53,11 @@ public class BetterNickname {
         ClientCommandHandler.instance.registerCommand(new NickDebug());
         ClientCommandHandler.instance.registerCommand(new BetterNickCommand());
         ClientCommandHandler.instance.registerCommand(new ConfigCommand());
+        ClientCommandHandler.instance.registerCommand(new AutoJumpCommand());
         MinecraftForge.EVENT_BUS.register(CancelBookGUI.getInstance());
         MinecraftForge.EVENT_BUS.register(AutoReroll.getInstance());
         MinecraftForge.EVENT_BUS.register(IsInLobby.getInstance());
+        MinecraftForge.EVENT_BUS.register(AutoJump.getInstance());
         MinecraftForge.EVENT_BUS.register(BetterNickConfig.hud); // Register HUD for overlay rendering
         //MinecraftForge.EVENT_BUS.register(PacketLogger.getInstance());
         //ClientRegistry.registerKeyBinding(PacketLogger.toggleSneakKey);
