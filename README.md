@@ -34,10 +34,11 @@ Use `/betternickconfig` to configure the mod settings:
 - `/betternickconfig matchtext <text>` - Set text to match in nickname (for auto-reroll)
 - `/betternickconfig excludetext <text>` - Set text to exclude in nickname (for auto-reroll)
 - `/betternickconfig autoclaim <true/false>` - Toggle auto-claim when match is found
-- `/betternickconfig rerolldelay <1-10>` - Set delay between rerolls (in seconds)
+- `/betternickconfig rerolldelay <0.1-10.0>` - Set delay between rerolls (in seconds, supports decimals)
 - `/betternickconfig maxlength <0-16>` - Set maximum length for generated names (0 = no limit)
 - `/betternickconfig allownumbers <true/false>` - Allow numbers in generated names
 - `/betternickconfig allowunderscores <true/false>` - Allow underscores in generated names
+- `/betternickconfig rule 1` - Apply quick rule preset 1 (no numbers, max 8 characters)
 - `/betternickconfig list` - Show all current settings
 - `/betternickconfig help` - Show configuration help
 
@@ -53,7 +54,7 @@ The auto-reroll feature will continuously generate new nicknames until one match
 
 2. **Configure behavior**:
    - `/betternickconfig autoclaim <true/false>` - Auto-claim matching names or notify when found
-   - `/betternickconfig rerolldelay <1-10>` - Set delay between rerolls (in seconds)
+   - `/betternickconfig rerolldelay <0.1-10.0>` - Set delay between rerolls (in seconds, supports decimals)
 
 3. **Start auto-reroll**:
    - `/betternick auto` - Toggle auto-reroll on/off
@@ -70,12 +71,19 @@ The auto-jump feature helps you stay active while waiting for nickname generatio
 
 ### Example Usage
 ```bash
-# Find a nickname containing "dragon", max 8 characters, no numbers or underscores
+# Method 1: Use quick rule preset
+/betternickconfig rule 1  # Applies: no numbers, max 8 characters
+/betternickconfig matchtext dragon
+/betternickconfig autoclaim true
+/betternickconfig rerolldelay 0.5  # Fast reroll every 0.5 seconds
+
+# Method 2: Manual configuration
 /betternickconfig matchtext dragon
 /betternickconfig maxlength 8
 /betternickconfig allownumbers false
 /betternickconfig allowunderscores false
 /betternickconfig autoclaim true
+/betternickconfig rerolldelay 1.5  # Reroll every 1.5 seconds
 
 # Start the auto-reroll process
 /betternick auto

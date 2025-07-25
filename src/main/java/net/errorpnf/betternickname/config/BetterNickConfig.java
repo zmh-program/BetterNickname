@@ -18,7 +18,7 @@ public class BetterNickConfig {
     public static String matchText = "";
     public static String excludeText = "";
     public static boolean autoclaim = false;
-    public static int rerollDelay = 3;
+    public static double rerollDelay = 3.0;
     public static int maxLength = 0; // 0 means no limit
     public static boolean allowNumbers = true;
     public static boolean allowUnderscores = true;
@@ -41,6 +41,29 @@ public class BetterNickConfig {
     
     public static void load() {
         // TODO: Implement config file loading if needed
+    }
+    
+    // Quick rule presets
+    public static void applyRulePreset(int ruleNumber) {
+        switch (ruleNumber) {
+            case 1:
+                // Rule 1: No numbers, max 8 characters
+                allowNumbers = false;
+                maxLength = 8;
+                break;
+            default:
+                // Invalid rule number
+                break;
+        }
+    }
+    
+    public static String getRulePresetDescription(int ruleNumber) {
+        switch (ruleNumber) {
+            case 1:
+                return "No numbers, max 8 characters";
+            default:
+                return "Unknown rule preset";
+        }
     }
 }
 

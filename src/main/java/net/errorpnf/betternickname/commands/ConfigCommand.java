@@ -75,12 +75,12 @@ public class ConfigCommand extends CommandBase {
             case "rerolldelay":
                 if (args.length > 1) {
                     try {
-                        int value = Integer.parseInt(args[1]);
-                        if (value >= 1 && value <= 10) {
+                        double value = Double.parseDouble(args[1]);
+                        if (value >= 0.1 && value <= 10.0) {
                             BetterNickConfig.rerollDelay = value;
                             sendMessage("Reroll Delay set to: " + value + " seconds");
                         } else {
-                            sendMessage(EnumChatFormatting.RED + "Reroll Delay must be between 1 and 10 seconds");
+                            sendMessage(EnumChatFormatting.RED + "Reroll Delay must be between 0.1 and 10.0 seconds");
                         }
                     } catch (NumberFormatException e) {
                         sendMessage(EnumChatFormatting.RED + "Invalid number format");
@@ -132,6 +132,27 @@ public class ConfigCommand extends CommandBase {
                     sendMessage("Allow Underscores: " + BetterNickConfig.allowUnderscores);
                 }
                 break;
+            case "rule":
+                if (args.length > 1) {
+                    try {
+                        int ruleNumber = Integer.parseInt(args[1]);
+                        if (ruleNumber == 1) {
+                            BetterNickConfig.applyRulePreset(1);
+                            sendMessage("Applied Rule Preset 1: " + BetterNickConfig.getRulePresetDescription(1));
+                            sendMessage("Settings applied:");
+                            sendMessage("  - Allow Numbers: " + BetterNickConfig.allowNumbers);
+                            sendMessage("  - Max Length: " + BetterNickConfig.maxLength + " characters");
+                        } else {
+                            sendMessage(EnumChatFormatting.RED + "Unknown rule preset: " + ruleNumber);
+                        }
+                    } catch (NumberFormatException e) {
+                        sendMessage(EnumChatFormatting.RED + "Invalid rule number format");
+                    }
+                } else {
+                    sendMessage("Available rule presets:");
+                    sendMessage("  Rule 1: " + BetterNickConfig.getRulePresetDescription(1));
+                }
+                break;
             case "list":
                 listAllSettings();
                 break;
@@ -156,10 +177,11 @@ public class ConfigCommand extends CommandBase {
         sendMessage(EnumChatFormatting.AQUA + "/betternickconfig matchtext <text>" + EnumChatFormatting.GRAY + " - Text to match in nickname");
         sendMessage(EnumChatFormatting.AQUA + "/betternickconfig excludetext <text>" + EnumChatFormatting.GRAY + " - Text to exclude in nickname");
         sendMessage(EnumChatFormatting.AQUA + "/betternickconfig autoclaim <true/false>" + EnumChatFormatting.GRAY + " - Auto claim matching names");
-        sendMessage(EnumChatFormatting.AQUA + "/betternickconfig rerolldelay <1-10>" + EnumChatFormatting.GRAY + " - Delay between rerolls (seconds)");
+        sendMessage(EnumChatFormatting.AQUA + "/betternickconfig rerolldelay <0.1-10.0>" + EnumChatFormatting.GRAY + " - Delay between rerolls (seconds)");
         sendMessage(EnumChatFormatting.AQUA + "/betternickconfig maxlength <0-16>" + EnumChatFormatting.GRAY + " - Max length for generated names");
         sendMessage(EnumChatFormatting.AQUA + "/betternickconfig allownumbers <true/false>" + EnumChatFormatting.GRAY + " - Allow numbers in generated names");
         sendMessage(EnumChatFormatting.AQUA + "/betternickconfig allowunderscores <true/false>" + EnumChatFormatting.GRAY + " - Allow underscores in generated names");
+        sendMessage(EnumChatFormatting.AQUA + "/betternickconfig rule <1>" + EnumChatFormatting.GRAY + " - Apply rule preset (rule 1: no numbers, max 8 chars)");
         sendMessage(EnumChatFormatting.AQUA + "/betternickconfig list" + EnumChatFormatting.GRAY + " - List all current settings");
         sendMessage(EnumChatFormatting.AQUA + "/betternickconfig help" + EnumChatFormatting.GRAY + " - Show this help message");
     }
@@ -191,7 +213,7 @@ public class ConfigCommand extends CommandBase {
 
         if (args.length == 1) {
             String input = args[0].toLowerCase();
-            completions.addAll(Arrays.asList("help", "showrank", "matchtext", "excludetext", "autoclaim", "rerolldelay", "maxlength", "allownumbers", "allowunderscores", "list"));
+            completions.addAll(Arrays.asList("help", "showrank", "matchtext", "excludetext", "autoclaim", "rerolldelay", "maxlength", "allownumbers", "allowunderscores", "rule", "list"));
             completions.removeIf(s -> !s.startsWith(input));
         } else if (args.length == 2) {
             String setting = args[0].toLowerCase();
@@ -200,11 +222,20 @@ public class ConfigCommand extends CommandBase {
             if (setting.equals("showrank") || setting.equals("autoclaim")) {
                 completions.addAll(Arrays.asList("true", "false"));
                 completions.removeIf(s -> !s.startsWith(input));
-            } else if (setting.equals("rerolldelay") || setting.equals("maxlength")) {
+            } else if (setting.equals("rerolldelay")) {
+                completions.addAll(Arrays.asList("0.5", "1", "1.5", "2", "2.5", "3", "4", "5"));
+                completions.removeIf(s -> !s.startsWith(input));
+            } else if (setting.equals("maxlength")) {
                 completions.addAll(Arrays.asList("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "0"));
+                completions.removeIf(s -> !s.startsWith(input));
+            } else if (setting.equals("rule")) {
+                completions.addAll(Arrays.asList("1"));
                 completions.removeIf(s -> !s.startsWith(input));
             } else if (setting.equals("allownumbers") || setting.equals("allowunderscores")) {
                 completions.addAll(Arrays.asList("true", "false"));
+                completions.removeIf(s -> !s.startsWith(input));
+            } else if (setting.equals("rule")) {
+                completions.addAll(Arrays.asList("1", "2", "3"));
                 completions.removeIf(s -> !s.startsWith(input));
             }
         }

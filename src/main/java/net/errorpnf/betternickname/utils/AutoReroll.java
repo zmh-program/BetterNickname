@@ -76,7 +76,7 @@ public class AutoReroll {
                 }
 
                 tick++;
-                if (tick > (BetterNickConfig.rerollDelay * 40)) {
+                if (tick > (BetterNickConfig.rerollDelay * 20.0)) {
                     Minecraft.getMinecraft().thePlayer.sendChatMessage("/nick help setrandom");
                     BetterNickCommand.setCancelBookGui(true);
                     tick = 0;
