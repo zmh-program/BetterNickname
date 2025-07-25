@@ -39,7 +39,7 @@ public class BetterNickCommand extends CommandBase {
             return;
         }
 
-        if (!args[0].equals("help") && !args[0].equals("run") && !args[0].equals("claim") && !args[0].equals("rank") && !args[0].equals("autoreroll")) {
+        if (!args[0].equals("help") && !args[0].equals("run") && !args[0].equals("claim") && !args[0].equals("rank") && !args[0].equals("auto")) {
             helpCommand();
             return;
         }
@@ -55,7 +55,7 @@ public class BetterNickCommand extends CommandBase {
         } else if (args[0].equals("claim")) {
             claimNick();
             return;
-        } else if (args[0].equals("autoreroll")) {
+        } else if (args[0].equals("auto")) {
             AutoReroll.toggleAutoReroll();
             return;
         }
@@ -124,7 +124,7 @@ public class BetterNickCommand extends CommandBase {
             completions.add("run");
             completions.add("claim");
             completions.add("rank");
-            completions.add("autoreroll");
+            completions.add("auto");
 
             // Optionally, add more top-level subcommands here
 
@@ -194,7 +194,7 @@ public class BetterNickCommand extends CommandBase {
         sendMessage("&e===================================================");
         sendMessage("&b/betternick run &e- Generates a random nickname for you (but doesn't automatically claim it).");
         sendMessage("&b/betternick claim &e- Claims the username you generated.");
-        sendMessage("&b/betternick autoreroll &e- Toggles auto-reroll to continuously generate nicknames until match found.");
+        sendMessage("&b/betternick auto &e- Toggles auto-reroll to continuously generate nicknames until match found.");
         sendMessage("&b/betternick rank &e- Sets your nick rank.");
         sendMessage("&b/betternick help &e- Displays this message.");
         sendMessage("&b/betternickconfig ... &e- Set configuration.");

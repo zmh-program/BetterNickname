@@ -22,7 +22,7 @@ This mod and its features are use at your own risk. It is to be used at the user
 - `/betternick help` - Shows help message with all available commands
 - `/betternick run` - Generates a random nickname (doesn't automatically claim it)
 - `/betternick claim` - Claims the generated username
-- `/betternick autoreroll` - Toggles auto-reroll to continuously generate nicknames until match found
+- `/betternick auto` - Toggles auto-reroll to continuously generate nicknames until match found
 - `/betternick rank <rank|random>` - Sets your nick rank
   - Available ranks: `default`, `vip`, `vip+`, `mvp`, `mvp+`, `random`
 - `/autojump` - Toggles auto-jump (jumps every 30-90 seconds randomly)
@@ -56,7 +56,7 @@ The auto-reroll feature will continuously generate new nicknames until one match
    - `/betternickconfig rerolldelay <1-10>` - Set delay between rerolls (in seconds)
 
 3. **Start auto-reroll**:
-   - `/betternick autoreroll` - Toggle auto-reroll on/off
+   - `/betternick auto` - Toggle auto-reroll on/off
 
 The system will continuously generate nicknames and check all your criteria. When a match is found, it will either automatically claim the name (if autoclaim is enabled) or notify you to manually claim it.
 
@@ -78,7 +78,7 @@ The auto-jump feature helps you stay active while waiting for nickname generatio
 /betternickconfig autoclaim true
 
 # Start the auto-reroll process
-/betternick autoreroll
+/betternick auto
 
 # Optional: Enable auto-jump to stay active
 /autojump

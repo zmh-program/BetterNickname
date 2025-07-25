@@ -17,7 +17,7 @@ public class BetterNickConfig {
     // Auto-Reroll Settings
     public static String matchText = "";
     public static String excludeText = "";
-    public static boolean autoclaim = true;
+    public static boolean autoclaim = false;
     public static int rerollDelay = 3;
     public static int maxLength = 0; // 0 means no limit
     public static boolean allowNumbers = true;
