@@ -1,5 +1,6 @@
 package net.errorpnf.betternickname.commands;
 
+import net.errorpnf.betternickname.config.BetterNickConfig;
 import net.errorpnf.betternickname.utils.AutoReroll;
 import net.errorpnf.betternickname.utils.BookParser;
 import net.errorpnf.betternickname.utils.IsInLobby;
@@ -56,13 +57,28 @@ public class BetterNickCommand extends CommandBase {
             claimNick();
             return;
         } else if (args[0].equals("auto")) {
+            if (args.length > 1) {
+                try {
+                    int ruleNumber = Integer.parseInt(args[1]);
+                    if (ruleNumber >= 1 && ruleNumber <= 3) {
+                        BetterNickConfig.applyRulePreset(ruleNumber);
+                        sendMessage("Applied rule preset " + ruleNumber + ": " + BetterNickConfig.getRulePresetDescription(ruleNumber));
+                    } else {
+                        sendMessage("&cInvalid rule number. Available rules: 1, 2, 3");
+                        return;
+                    }
+                } catch (NumberFormatException e) {
+                    sendMessage("&cInvalid rule number format. Use: /betternick auto <1|2|3>");
+                    return;
+                }
+            }
             AutoReroll.toggleAutoReroll();
             return;
         }
 
         if (args[0].equals("rank")) {
             if (isHypixel()) {
-                if (true) {
+                if (IsInLobby.isInLobby()) {
                     if (args.length > 1) {
                         if (args[1] != null) {
                             if (args[1].equalsIgnoreCase("random")) {
@@ -138,6 +154,14 @@ public class BetterNickCommand extends CommandBase {
 
             // Filter the completions based on the input provided so far
             completions.removeIf(s -> !s.startsWith(input));
+        } else if (args.length == 2 && args[0].equalsIgnoreCase("auto")) {
+            String input = args[1].toLowerCase();
+            
+            // Add rule options to the tab completion list
+            completions.addAll(Arrays.asList("1", "2", "3"));
+            
+            // Filter the completions based on the input provided so far
+            completions.removeIf(s -> !s.startsWith(input));
         }
 
         return completions.isEmpty() ? super.addTabCompletionOptions(sender, args, pos) : completions;
@@ -154,7 +178,7 @@ public class BetterNickCommand extends CommandBase {
 
     public static void claimNick() {
         if (isHypixel()) {
-            if (true) {
+            if (IsInLobby.isInLobby()) {
                 if (AutoReroll.isAutoRerollEnabled()) {
                     AutoReroll.toggleAutoReroll();
                 }
@@ -178,7 +202,7 @@ public class BetterNickCommand extends CommandBase {
 
     public static void rerollNick() {
         if (isHypixel()) {
-            if (true) {
+            if (IsInLobby.isInLobby()) {
                 Minecraft.getMinecraft().thePlayer.sendChatMessage("/nick help setrandom");
                 cancelBookGui = true;
             } else {
@@ -194,7 +218,7 @@ public class BetterNickCommand extends CommandBase {
         sendMessage("&e===================================================");
         sendMessage("&b/betternick run &e- Generates a random nickname for you (but doesn't automatically claim it).");
         sendMessage("&b/betternick claim &e- Claims the username you generated.");
-        sendMessage("&b/betternick auto &e- Toggles auto-reroll to continuously generate nicknames until match found.");
+        sendMessage("&b/betternick auto [rule] &e- Toggles auto-reroll. Optional rule number (1-3) applies preset filters.");
         sendMessage("&b/betternick rank &e- Sets your nick rank.");
         sendMessage("&b/betternick help &e- Displays this message.");
         sendMessage("&b/betternickconfig ... &e- Set configuration.");

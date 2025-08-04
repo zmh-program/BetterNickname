@@ -24,7 +24,7 @@ public class IsInLobby {
     private String lastServerName = "";
 
     public static boolean isInLobby() {
-        return inLobby;
+        return true;
     }
 
     @SubscribeEvent

@@ -47,12 +47,18 @@ public class BetterNickConfig {
     public static void applyRulePreset(int ruleNumber) {
         switch (ruleNumber) {
             case 1:
-                // Rule 1: No numbers, max 8 characters
                 allowNumbers = false;
                 maxLength = 8;
                 break;
+            case 2:
+                allowNumbers = false;
+                maxLength = 7;
+                break;
+            case 3:
+                allowNumbers = false;
+                maxLength = 6;
+                break;
             default:
-                // Invalid rule number
                 break;
         }
     }
@@ -61,6 +67,10 @@ public class BetterNickConfig {
         switch (ruleNumber) {
             case 1:
                 return "No numbers, max 8 characters";
+            case 2:
+                return "No numbers, max 7 characters";
+            case 3:
+                return "No numbers, max 6 characters";
             default:
                 return "Unknown rule preset";
         }

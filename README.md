@@ -22,7 +22,8 @@ This mod and its features are use at your own risk. It is to be used at the user
 - `/betternick help` - Shows help message with all available commands
 - `/betternick run` - Generates a random nickname (doesn't automatically claim it)
 - `/betternick claim` - Claims the generated username
-- `/betternick auto` - Toggles auto-reroll to continuously generate nicknames until match found
+- `/betternick auto [rule]` - Toggles auto-reroll to continuously generate nicknames until match found
+  - Optional rule parameter (1-3) applies preset filters before starting auto-reroll
 - `/betternick rank <rank|random>` - Sets your nick rank
   - Available ranks: `default`, `vip`, `vip+`, `mvp`, `mvp+`, `random`
 - `/autojump` - Toggles auto-jump (jumps every 30-90 seconds randomly)
@@ -38,7 +39,10 @@ Use `/betternickconfig` to configure the mod settings:
 - `/betternickconfig maxlength <0-16>` - Set maximum length for generated names (0 = no limit)
 - `/betternickconfig allownumbers <true/false>` - Allow numbers in generated names
 - `/betternickconfig allowunderscores <true/false>` - Allow underscores in generated names
-- `/betternickconfig rule 1` - Apply quick rule preset 1 (no numbers, max 8 characters)
+- `/betternickconfig rule <1|2|3>` - Apply quick rule presets:
+  - Rule 1: No numbers, max 8 characters
+  - Rule 2: No numbers, max 7 characters  
+  - Rule 3: No numbers, max 6 characters
 - `/betternickconfig list` - Show all current settings
 - `/betternickconfig help` - Show configuration help
 
@@ -58,6 +62,7 @@ The auto-reroll feature will continuously generate new nicknames until one match
 
 3. **Start auto-reroll**:
    - `/betternick auto` - Toggle auto-reroll on/off
+   - `/betternick auto <1|2|3>` - Apply rule preset and start auto-reroll
 
 The system will continuously generate nicknames and check all your criteria. When a match is found, it will either automatically claim the name (if autoclaim is enabled) or notify you to manually claim it.
 
@@ -71,21 +76,26 @@ The auto-jump feature helps you stay active while waiting for nickname generatio
 
 ### Example Usage
 ```bash
-# Method 1: Use quick rule preset
+# Method 1: Use quick rule preset via config command
 /betternickconfig rule 1  # Applies: no numbers, max 8 characters
 /betternickconfig matchtext dragon
 /betternickconfig autoclaim true
 /betternickconfig rerolldelay 0.5  # Fast reroll every 0.5 seconds
+/betternick auto
 
-# Method 2: Manual configuration
+# Method 2: Use rule preset directly with auto command
+/betternickconfig matchtext dragon
+/betternickconfig autoclaim true
+/betternickconfig rerolldelay 0.5
+/betternick auto 2  # Applies rule 2 (max 7 chars, no numbers) and starts auto-reroll
+
+# Method 3: Manual configuration
 /betternickconfig matchtext dragon
 /betternickconfig maxlength 8
 /betternickconfig allownumbers false
 /betternickconfig allowunderscores false
 /betternickconfig autoclaim true
 /betternickconfig rerolldelay 1.5  # Reroll every 1.5 seconds
-
-# Start the auto-reroll process
 /betternick auto
 
 # Optional: Enable auto-jump to stay active
