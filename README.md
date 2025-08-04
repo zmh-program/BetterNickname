@@ -10,6 +10,7 @@ This mod and its features are use at your own risk. It is to be used at the user
   - Customizable reroll interval
   - Multiple filtering options: text matching, exclusion, length limits, number/underscore control
   - Automatically claims the name once condition is met
+  - Automatically sets language to English for consistent nickname parsing
 - Auto-jump feature to stay active (jumps every 30-90 seconds randomly)
 - Removes the need for the bulky written-book-based GUI system implemented by Hypixel
 - Let's you set a random nick rank `/betternick rank random`
@@ -68,6 +69,8 @@ The auto-reroll feature will continuously generate new nicknames until one match
    - `/betternick auto <1|2|3>` - Apply rule preset and start auto-reroll
 
 The system will continuously generate nicknames and check all your criteria. When a match is found, it will either automatically claim the name (if autoclaim is enabled) or notify you to manually claim it.
+
+**Language Setting**: The mod automatically sets your language to English (`/lang en`) once per game session when you first use nickname generation to ensure consistent parsing of server responses, regardless of your current language setting.
 
 ### Auto-Jump Feature
 The auto-jump feature helps you stay active while waiting for nickname generation:

@@ -99,6 +99,8 @@ public class AutoReroll {
                 sendMessage("&cDisabled Auto-Reroll.");
             } else {
                 sendMessage("&aEnabled Auto-Reroll.");
+                // Ensure language is set when starting auto-reroll
+                BetterNickConfig.ensureLanguageSet();
             }
             AutoReroll.autoRerollEnabled = !isAutoRerollEnabled();
         }

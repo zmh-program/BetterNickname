@@ -31,6 +31,9 @@ public class BetterNickConfig {
     // Auto-reroll state
     public static boolean autoRerollEnabled = false;
     
+    // Language setting state
+    public static boolean hasSetLanguageThisSession = false;
+    
     public BetterNickConfig() {
         // Simple initialization
     }
@@ -74,6 +77,56 @@ public class BetterNickConfig {
             default:
                 return "Unknown rule preset";
         }
+    }
+    
+    public static void ensureLanguageSet() {
+        if (!hasSetLanguageThisSession && isHypixel()) {
+            sendMessage("§eSetting language to English for proper nickname parsing...");
+            sendMessageToMinecraft("/lang en");
+            hasSetLanguageThisSession = true;
+        }
+    }
+    
+    private static void sendMessage(String message) {
+        try {
+            net.minecraft.client.Minecraft.getMinecraft().thePlayer.addChatMessage(
+                new net.minecraft.util.ChatComponentText(net.minecraft.util.EnumChatFormatting.YELLOW + "[BetterNick] " + net.minecraft.util.EnumChatFormatting.RESET + message)
+            );
+        } catch (Exception e) {
+        }
+    }
+    
+    private static void sendMessageToMinecraft(final String message) {
+        try {
+            final net.minecraft.client.Minecraft mc = net.minecraft.client.Minecraft.getMinecraft();
+            if (mc == null) {
+                return;
+            }
+            
+            mc.addScheduledTask(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        if (mc.thePlayer != null && mc.theWorld != null && !mc.isGamePaused()) {
+                            mc.thePlayer.sendChatMessage(message);
+                        }
+                    } catch (Exception e) {
+                    }
+                }
+            });
+        } catch (Exception e) {
+        }
+    }
+    
+    private static boolean isHypixel() {
+        try {
+            if (net.minecraft.client.Minecraft.getMinecraft().getCurrentServerData() != null) {
+                String serverIp = net.minecraft.client.Minecraft.getMinecraft().getCurrentServerData().serverIP.toLowerCase();
+                return serverIp.contains("hypixel.net") || serverIp.contains("hypixel.io");
+            }
+        } catch (Exception e) {
+        }
+        return false;
     }
 }
 

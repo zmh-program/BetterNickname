@@ -210,6 +210,7 @@ public class BetterNickCommand extends CommandBase {
     public static void rerollNick() {
         if (isHypixel()) {
             if (IsInLobby.isInLobby()) {
+                BetterNickConfig.ensureLanguageSet();
                 Minecraft.getMinecraft().thePlayer.sendChatMessage("/nick help setrandom");
                 cancelBookGui = true;
             } else {
