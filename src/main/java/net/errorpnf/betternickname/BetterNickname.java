@@ -1,6 +1,7 @@
 package net.errorpnf.betternickname;
 
 import net.errorpnf.betternickname.commands.AutoJumpCommand;
+import net.errorpnf.betternickname.commands.BetterNickAlias;
 import net.errorpnf.betternickname.commands.BetterNickCommand;
 import net.errorpnf.betternickname.commands.ConfigCommand;
 import net.errorpnf.betternickname.commands.NickDebug;
@@ -52,6 +53,7 @@ public class BetterNickname {
         MinecraftForge.EVENT_BUS.register(BookParser.getInstance());
         ClientCommandHandler.instance.registerCommand(new NickDebug());
         ClientCommandHandler.instance.registerCommand(new BetterNickCommand());
+        ClientCommandHandler.instance.registerCommand(new BetterNickAlias());
         ClientCommandHandler.instance.registerCommand(new ConfigCommand());
         ClientCommandHandler.instance.registerCommand(new AutoJumpCommand());
         MinecraftForge.EVENT_BUS.register(CancelBookGUI.getInstance());
