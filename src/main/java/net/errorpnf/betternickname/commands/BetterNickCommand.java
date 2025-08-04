@@ -223,13 +223,14 @@ public class BetterNickCommand extends CommandBase {
     public static void helpCommand() {
         // displays help
         sendMessage("&e===================================================");
-        sendMessage("&b/betternick run &e- Generates a random nickname for you (but doesn't automatically claim it).");
-        sendMessage("&b/betternick claim &e- Claims the username you generated.");
-        sendMessage("&b/betternick auto [rule] &e- Toggles auto-reroll. Optional rule number (1-3) applies preset filters.");
-        sendMessage("&b/betternick rank &e- Sets your nick rank.");
-        sendMessage("&b/betternick help &e- Displays this message.");
+        sendMessage("&b/betternick run &e(or &b/bn run&e) - Generates a random nickname for you (but doesn't automatically claim it).");
+        sendMessage("&b/betternick claim &e(or &b/bn claim&e) - Claims the username you generated.");
+        sendMessage("&b/betternick auto [rule] &e(or &b/bn auto [rule]&e) - Toggles auto-reroll. Optional rule number (1-3) applies preset filters.");
+        sendMessage("&b/betternick rank &e(or &b/bn rank&e) - Sets your nick rank.");
+        sendMessage("&b/betternick help &e(or &b/bn help&e) - Displays this message.");
         sendMessage("&b/betternickconfig ... &e- Set configuration.");
         sendMessage("&b/betternickconfig help &e- Displays the configuration help message.");
+        sendMessage("&6Note: &e/bn is a short alias for /betternick!");
         sendMessage("&e===================================================");
     }
     

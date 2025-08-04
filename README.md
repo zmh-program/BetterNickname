@@ -19,15 +19,17 @@ This mod and its features are use at your own risk. It is to be used at the user
 ## Commands
 
 ### Main Commands
-- `/betternick help` - Shows help message with all available commands
-- `/betternick run` - Generates a random nickname (doesn't automatically claim it)
-- `/betternick claim` - Claims the generated username (automatically disables auto-jump)
-- `/betternick auto [rule]` - Toggles auto-reroll to continuously generate nicknames until match found
+- `/betternick help` (or `/bn help`) - Shows help message with all available commands
+- `/betternick run` (or `/bn run`) - Generates a random nickname (doesn't automatically claim it)
+- `/betternick claim` (or `/bn claim`) - Claims the generated username (automatically disables auto-jump)
+- `/betternick auto [rule]` (or `/bn auto [rule]`) - Toggles auto-reroll to continuously generate nicknames until match found
   - Optional rule parameter (1-3) applies preset filters before starting auto-reroll
   - Automatically enables auto-jump when starting auto-reroll to keep you active
-- `/betternick rank <rank|random>` - Sets your nick rank
+- `/betternick rank <rank|random>` (or `/bn rank <rank|random>`) - Sets your nick rank
   - Available ranks: `default`, `vip`, `vip+`, `mvp`, `mvp+`, `random`
 - `/autojump` - Toggles auto-jump (jumps every 30-90 seconds randomly)
+
+**Note:** `/bn` is a convenient alias for `/betternick` - all commands work the same way!
 
 ### Configuration Commands
 Use `/betternickconfig` to configure the mod settings:
@@ -83,13 +85,13 @@ The auto-jump feature helps you stay active while waiting for nickname generatio
 /betternickconfig matchtext dragon
 /betternickconfig autoclaim true
 /betternickconfig rerolldelay 0.5  # Fast reroll every 0.5 seconds
-/betternick auto
+/bn auto  # Using the short alias
 
 # Method 2: Use rule preset directly with auto command (auto-jump enabled automatically)
 /betternickconfig matchtext dragon
 /betternickconfig autoclaim true
 /betternickconfig rerolldelay 0.5
-/betternick auto 2  # Applies rule 2 (max 7 chars, no numbers), enables auto-jump, and starts auto-reroll
+/bn auto 2  # Applies rule 2 (max 7 chars, no numbers), enables auto-jump, and starts auto-reroll
 
 # Method 3: Manual configuration (auto-jump enabled automatically)
 /betternickconfig matchtext dragon
@@ -98,9 +100,14 @@ The auto-jump feature helps you stay active while waiting for nickname generatio
 /betternickconfig allowunderscores false
 /betternickconfig autoclaim true
 /betternickconfig rerolldelay 1.5  # Reroll every 1.5 seconds
-/betternick auto  # Enables auto-jump automatically
+/bn auto  # Enables auto-jump automatically
 
-# Note: Auto-jump is automatically enabled with /betternick auto and disabled when claiming
+# Quick examples with short alias
+/bn run     # Generate a nickname
+/bn claim   # Claim the nickname
+/bn rank mvp  # Set rank to MVP
+
+# Note: Auto-jump is automatically enabled with /bn auto and disabled when claiming
 ```
 
 ## Installation
