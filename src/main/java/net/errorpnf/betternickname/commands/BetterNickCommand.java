@@ -1,6 +1,7 @@
 package net.errorpnf.betternickname.commands;
 
 import net.errorpnf.betternickname.config.BetterNickConfig;
+import net.errorpnf.betternickname.utils.AutoJump;
 import net.errorpnf.betternickname.utils.AutoReroll;
 import net.errorpnf.betternickname.utils.BookParser;
 import net.errorpnf.betternickname.utils.IsInLobby;
@@ -72,6 +73,11 @@ public class BetterNickCommand extends CommandBase {
                     return;
                 }
             }
+            
+            if (!AutoReroll.isAutoRerollEnabled()) {
+                AutoJump.enableAutoJump();
+            }
+            
             AutoReroll.toggleAutoReroll();
             return;
         }
@@ -189,6 +195,7 @@ public class BetterNickCommand extends CommandBase {
                     cancelBookGui = true;
                     AutoReroll.claimedName = BookParser.getGeneratedNickname();
                     AutoReroll.hasClaimedName = true;
+                    AutoJump.disableAutoJump();
                 } else {
                     sendMessage("&cGenerated nickname is null. Please try generating a nickname with &e/betternick run&c before attempting to claim a username.");
                 }

@@ -64,6 +64,27 @@ public class AutoJump {
         }
     }
 
+    public static void enableAutoJump() {
+        if (!autoJumpEnabled) {
+            autoJumpEnabled = true;
+            sendMessage("&aEnabled Auto-Jump. Will jump every 30-90 seconds to keep you active during auto-reroll.");
+            sendMessage("&eUse &b/autojump &eor &b/betternick claim &eto disable auto-jump.");
+            // Set initial jump time (30-90 seconds from now)
+            int minTicks = 30 * 20; // 30 seconds
+            int maxTicks = 90 * 20; // 90 seconds
+            nextJumpTime = tick + minTicks + random.nextInt(maxTicks - minTicks + 1);
+        }
+    }
+
+    public static void disableAutoJump() {
+        if (autoJumpEnabled) {
+            autoJumpEnabled = false;
+            sendMessage("&cDisabled Auto-Jump.");
+            tick = 0;
+            nextJumpTime = 0;
+        }
+    }
+
     private static void sendMessage(String message) {
         String formattedMessage = message.replace("&", "§");
         Minecraft.getMinecraft().thePlayer.addChatMessage(

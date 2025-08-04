@@ -2,6 +2,8 @@ package net.errorpnf.betternickname.utils;
 
 import net.errorpnf.betternickname.commands.BetterNickCommand;
 import net.errorpnf.betternickname.config.BetterNickConfig;
+import net.errorpnf.betternickname.utils.AutoJump;
+import net.errorpnf.betternickname.utils.IsInLobby;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
@@ -27,7 +29,7 @@ public class AutoReroll {
     public void onTick(TickEvent.ClientTickEvent event) {
         if ((Minecraft.getMinecraft() != null) && (Minecraft.getMinecraft().thePlayer != null) && isHypixel()) {
             if (isAutoRerollEnabled()) {
-                if (true) {
+                if (IsInLobby.isInLobby()) {
                     if (!hasClaimedName && BookParser.getGeneratedNickname() != null && !BookParser.getGeneratedNickname().equals(claimedName)) {
                         String nickname = BookParser.getGeneratedNickname();
                         
@@ -57,6 +59,7 @@ public class AutoReroll {
                                 Minecraft.getMinecraft().thePlayer.playSound("random.levelup", 1f, 2f);
                                 claimedName = BookParser.getGeneratedNickname();
                                 hasClaimedName = true;
+                                AutoJump.disableAutoJump();
                             } else {
                                 sendMessage("&aAuto-Reroll match found!");
                                 sendMessage("Run &b/betternick claim &eto claim the name!");
