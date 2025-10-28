@@ -1,18 +1,11 @@
 package net.errorpnf.betternickname.config;
 
-import net.errorpnf.betternickname.hud.CurrentNickHud;
 import org.lwjgl.input.Keyboard;
 
 /**
  * Simple configuration class to manage mod settings via commands
  */
 public class BetterNickConfig {
-    
-    // HUD Options
-    public static boolean showRank = true;
-    
-    // HUD instance
-    public static CurrentNickHud hud = new CurrentNickHud();
     
     // Auto-Reroll Settings
     public static String matchText = "";

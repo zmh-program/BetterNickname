@@ -60,7 +60,6 @@ public class BetterNickname {
         MinecraftForge.EVENT_BUS.register(AutoReroll.getInstance());
         MinecraftForge.EVENT_BUS.register(IsInLobby.getInstance());
         MinecraftForge.EVENT_BUS.register(AutoJump.getInstance());
-        MinecraftForge.EVENT_BUS.register(BetterNickConfig.hud); // Register HUD for overlay rendering
         //MinecraftForge.EVENT_BUS.register(PacketLogger.getInstance());
         //ClientRegistry.registerKeyBinding(PacketLogger.toggleSneakKey);
         //ClientCommandHandler.instance.registerCommand(new BoolCommand());

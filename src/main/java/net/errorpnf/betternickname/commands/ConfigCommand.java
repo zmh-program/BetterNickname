@@ -38,15 +38,6 @@ public class ConfigCommand extends CommandBase {
             case "help":
                 sendHelpMessage();
                 break;
-            case "showrank":
-                if (args.length > 1) {
-                    boolean value = Boolean.parseBoolean(args[1]);
-                    BetterNickConfig.showRank = value;
-                    sendMessage("Show Rank set to: " + value);
-                } else {
-                    sendMessage("Show Rank: " + BetterNickConfig.showRank);
-                }
-                break;
             case "matchtext":
                 if (args.length > 1) {
                     BetterNickConfig.matchText = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
@@ -173,7 +164,6 @@ public class ConfigCommand extends CommandBase {
 
     private void sendHelpMessage() {
         sendMessage(EnumChatFormatting.GOLD + "=== BetterNick Configuration ===");
-        sendMessage(EnumChatFormatting.AQUA + "/betternickconfig showrank <true/false>" + EnumChatFormatting.GRAY + " - Show rank in HUD");
         sendMessage(EnumChatFormatting.AQUA + "/betternickconfig matchtext <text>" + EnumChatFormatting.GRAY + " - Text to match in nickname");
         sendMessage(EnumChatFormatting.AQUA + "/betternickconfig excludetext <text>" + EnumChatFormatting.GRAY + " - Text to exclude in nickname");
         sendMessage(EnumChatFormatting.AQUA + "/betternickconfig autoclaim <true/false>" + EnumChatFormatting.GRAY + " - Auto claim matching names");
@@ -188,7 +178,6 @@ public class ConfigCommand extends CommandBase {
 
     private void listAllSettings() {
         sendMessage(EnumChatFormatting.GOLD + "=== Current Settings ===");
-        sendMessage("Show Rank: " + BetterNickConfig.showRank);
         sendMessage("Match Text: '" + BetterNickConfig.matchText + "'");
         sendMessage("Exclude Text: '" + BetterNickConfig.excludeText + "'");
         sendMessage("Auto Claim Name: " + BetterNickConfig.autoclaim);
@@ -213,13 +202,13 @@ public class ConfigCommand extends CommandBase {
 
         if (args.length == 1) {
             String input = args[0].toLowerCase();
-            completions.addAll(Arrays.asList("help", "showrank", "matchtext", "excludetext", "autoclaim", "rerolldelay", "maxlength", "allownumbers", "allowunderscores", "rule", "list"));
+            completions.addAll(Arrays.asList("help", "matchtext", "excludetext", "autoclaim", "rerolldelay", "maxlength", "allownumbers", "allowunderscores", "rule", "list"));
             completions.removeIf(s -> !s.startsWith(input));
         } else if (args.length == 2) {
             String setting = args[0].toLowerCase();
             String input = args[1].toLowerCase();
             
-            if (setting.equals("showrank") || setting.equals("autoclaim")) {
+            if (setting.equals("autoclaim")) {
                 completions.addAll(Arrays.asList("true", "false"));
                 completions.removeIf(s -> !s.startsWith(input));
             } else if (setting.equals("rerolldelay")) {
